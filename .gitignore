@@ -4,6 +4,7 @@ node_modules/
 # Playwright
 playwright-report/
 test-results/
+blob-report/
 
 # Environment variables
 .env
@@ -24,8 +25,12 @@ pnpm-debug.log*
 # IDE
 .vscode/settings.json
 
-# Playwright
-/playwright-report/
-/blob-report/
+# Playwright cache
 /playwright/.cache/
 /playwright/.auth/
+
+# Coverage
+coverage/
+
+# Build
+dist/
