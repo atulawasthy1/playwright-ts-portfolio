@@ -4,7 +4,7 @@ export class ExamplePage {
   constructor(private readonly page: Page) {}
 
   async open(): Promise<void> {
-    await this.page.goto('/');
+    await this.page.goto('https://example.com');
   }
 
   async verifyTitle(): Promise<void> {
