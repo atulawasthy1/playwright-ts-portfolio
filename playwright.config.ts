@@ -34,11 +34,16 @@ export default defineConfig({
 },
    projects: [
   {
+  name: 'api',
+  testMatch: '**/api/**/*.spec.ts',
+},
+  {
   name: 'setup',
   testMatch: /.*\.setup\.ts/,
 },
   {
   name: 'chromium',
+  testIgnore: '**/api/**/*.spec.ts',
   use: {
     ...devices['Desktop Chrome'],
     storageState: 'playwright/.auth/user.json',

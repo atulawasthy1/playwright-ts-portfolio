@@ -1,4 +1,5 @@
 import { test as base } from '@playwright/test';
+import { OpenProjectApiClient } from '../api/OpenProjectApiClient';
 import { CreateProjectPage } from '../pages/CreateProjectPage';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
@@ -7,6 +8,7 @@ import { ProjectSettingsPage } from '../pages/ProjectSettingsPage';
 import { WorkPackagesPage } from '../pages/WorkPackagesPage';
 
 type AppFixtures = {
+  apiClient: OpenProjectApiClient;
   homePage: HomePage;
   loginPage: LoginPage;
   projectsPage: ProjectsPage;
@@ -16,6 +18,10 @@ type AppFixtures = {
 };
 
 export const test = base.extend<AppFixtures>({
+  apiClient: async ({ request }, use) => {
+    await use(new OpenProjectApiClient(request));
+  },
+
   homePage: async ({ page }, use) => {
     await use(new HomePage(page));
   },
@@ -33,13 +39,12 @@ export const test = base.extend<AppFixtures>({
   },
 
   projectSettingsPage: async ({ page }, use) => {
-  await use(new ProjectSettingsPage(page));
-},
+    await use(new ProjectSettingsPage(page));
+  },
 
   workPackagesPage: async ({ page }, use) => {
-  await use(new WorkPackagesPage(page));
-},
-
+    await use(new WorkPackagesPage(page));
+  },
 });
 
 export { expect } from '@playwright/test';
