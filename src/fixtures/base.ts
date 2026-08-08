@@ -1,10 +1,18 @@
 import { test as base } from '@playwright/test';
+import { CreateProjectPage } from '../pages/CreateProjectPage';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
+import { ProjectsPage } from '../pages/ProjectsPage';
+import { ProjectSettingsPage } from '../pages/ProjectSettingsPage';
+import { WorkPackagesPage } from '../pages/WorkPackagesPage';
 
 type AppFixtures = {
   homePage: HomePage;
   loginPage: LoginPage;
+  projectsPage: ProjectsPage;
+  createProjectPage: CreateProjectPage;
+  projectSettingsPage: ProjectSettingsPage;
+  workPackagesPage: WorkPackagesPage;
 };
 
 export const test = base.extend<AppFixtures>({
@@ -15,6 +23,23 @@ export const test = base.extend<AppFixtures>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));
   },
+
+  projectsPage: async ({ page }, use) => {
+    await use(new ProjectsPage(page));
+  },
+
+  createProjectPage: async ({ page }, use) => {
+    await use(new CreateProjectPage(page));
+  },
+
+  projectSettingsPage: async ({ page }, use) => {
+  await use(new ProjectSettingsPage(page));
+},
+
+  workPackagesPage: async ({ page }, use) => {
+  await use(new WorkPackagesPage(page));
+},
+
 });
 
 export { expect } from '@playwright/test';
