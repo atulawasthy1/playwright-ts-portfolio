@@ -56,6 +56,23 @@ export class OpenProjectApiClient {
     },
   );
 }
+  async updateProject(
+  projectId: number,
+  name: string,
+): Promise<APIResponse> {
+  return this.request.patch(
+    `${env.baseURL}/api/v3/projects/${projectId}`,
+    {
+      headers: {
+        ...this.headers,
+        'Content-Type': 'application/json',
+      },
+      data: {
+        name,
+      },
+    },
+  );
+}
   async deleteProject(projectId: number): Promise<APIResponse> {
   return this.request.delete(
     `${env.baseURL}/api/v3/projects/${projectId}`,
