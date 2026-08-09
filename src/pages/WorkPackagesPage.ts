@@ -51,11 +51,11 @@ export class WorkPackagesPage extends BasePage {
     });
 
     this.successMessage = page.getByRole('alert').getByText('Successful creation.', {
-    exact: true,
+      exact: true,
     });
 
     this.successfulUpdateMessage = page.getByRole('alert').filter({
-    hasText: 'Successful update.',
+      hasText: 'Successful update.',
     });
 
     this.deleteMenuItem = page.getByRole('menuitem', {
@@ -101,116 +101,98 @@ export class WorkPackagesPage extends BasePage {
   }
 
   async expectTaskVisible(subject: string): Promise<void> {
-    const taskRow = this.page
-      .getByRole('row')
-      .filter({
-        hasText: subject,
-      });
+    const taskRow = this.page.getByRole('row').filter({
+      hasText: subject,
+    });
 
     await expect(taskRow).toBeVisible();
     await expect(taskRow).toContainText(/Task/i);
   }
 
-  async expectTaskStatusInTable(
-  subject: string,
-  status: string,
-): Promise<void> {
-  const taskRow = this.page
-    .getByRole('row')
-    .filter({
+  async expectTaskStatusInTable(subject: string, status: string): Promise<void> {
+    const taskRow = this.page.getByRole('row').filter({
       hasText: subject,
     });
 
-  await expect(
-    taskRow.getByRole('button', {
-      name: `Status ${status}: Edit`,
-      exact: true,
-    }),
-  ).toBeVisible();
-}
-
-async changeTaskStatus(
-  subject: string,
-  status: string,
-): Promise<void> {
-  const taskRow = this.page
-    .getByRole('row')
-    .filter({
-      hasText: subject,
-    });
-
-  await taskRow
-    .getByRole('button', {
-      name: /^Status .+: Edit$/,
-    })
-    .click();
-
-  await this.page.getByText(status, {
-    exact: true,
-  }).click();
-
-  await expect(this.successfulUpdateMessage).toBeVisible();
-  await this.expectTaskStatusInTable(subject, status);
-}
-
-async openTaskDetails(subject: string): Promise<void> {
-  const taskRow = this.page
-    .getByRole('row')
-    .filter({
-      hasText: subject,
-    });
-
-  await taskRow
-    .getByRole('link', {
-      name: 'Open details view',
-      exact: true,
-    })
-    .click();
-
-  await expect(
-    this.page.getByText(
-      `You are on the Overview tab for Task ${subject}.`,
-      {
+    await expect(
+      taskRow.getByRole('button', {
+        name: `Status ${status}: Edit`,
         exact: true,
-      },
-    ),
-  ).toBeVisible();
-}
+      }),
+    ).toBeVisible();
+  }
 
-async expectTaskStatusInDetails(status: string): Promise<void> {
-  await expect(
-    this.page.getByRole('button', {
-      name: 'Edit the status of the work package',
-      exact: true,
-    }),
-  ).toContainText(status);
-}
+  async changeTaskStatus(subject: string, status: string): Promise<void> {
+    const taskRow = this.page.getByRole('row').filter({
+      hasText: subject,
+    });
 
+    await taskRow
+      .getByRole('button', {
+        name: /^Status .+: Edit$/,
+      })
+      .click();
+
+    await this.page
+      .getByText(status, {
+        exact: true,
+      })
+      .click();
+
+    await expect(this.successfulUpdateMessage).toBeVisible();
+    await this.expectTaskStatusInTable(subject, status);
+  }
+
+  async openTaskDetails(subject: string): Promise<void> {
+    const taskRow = this.page.getByRole('row').filter({
+      hasText: subject,
+    });
+
+    await taskRow
+      .getByRole('link', {
+        name: 'Open details view',
+        exact: true,
+      })
+      .click();
+
+    await expect(
+      this.page.getByText(`You are on the Overview tab for Task ${subject}.`, {
+        exact: true,
+      }),
+    ).toBeVisible();
+  }
+
+  async expectTaskStatusInDetails(status: string): Promise<void> {
+    await expect(
+      this.page.getByRole('button', {
+        name: 'Edit the status of the work package',
+        exact: true,
+      }),
+    ).toContainText(status);
+  }
 
   async deleteTask(subject: string): Promise<void> {
-  const taskRow = this.page
-    .getByRole('row')
-    .filter({
+    const taskRow = this.page.getByRole('row').filter({
       hasText: subject,
     });
 
-  await taskRow
-    .getByRole('link', {
-      name: 'Open context menu',
-      exact: true,
-    })
-    .click();
+    await taskRow
+      .getByRole('link', {
+        name: 'Open context menu',
+        exact: true,
+      })
+      .click();
 
-  await this.deleteMenuItem.click();
+    await this.deleteMenuItem.click();
 
-  await expect(this.deleteDialogHeading).toBeVisible();
-  await expect(this.deletePermanentlyButton).toBeDisabled();
+    await expect(this.deleteDialogHeading).toBeVisible();
+    await expect(this.deletePermanentlyButton).toBeDisabled();
 
-  await this.deleteAcknowledgementCheckbox.check();
+    await this.deleteAcknowledgementCheckbox.check();
 
-  await expect(this.deletePermanentlyButton).toBeEnabled();
-  await this.deletePermanentlyButton.click();
+    await expect(this.deletePermanentlyButton).toBeEnabled();
+    await this.deletePermanentlyButton.click();
 
-  await expect(taskRow).not.toBeVisible();
-}
+    await expect(taskRow).not.toBeVisible();
+  }
 }

@@ -37,56 +37,55 @@ export class ProjectsPage extends BasePage {
     this.searchInput = page.getByPlaceholder('Search by name');
 
     this.deleteMenuItem = page.getByRole('menuitem', {
-  name: 'Delete',
-  exact: true,
-});
+      name: 'Delete',
+      exact: true,
+    });
 
-this.deleteDialogHeading = page.getByRole('heading', {
-  name: 'Permanently delete this project?',
-  exact: true,
-});
+    this.deleteDialogHeading = page.getByRole('heading', {
+      name: 'Permanently delete this project?',
+      exact: true,
+    });
 
-this.deleteAcknowledgementCheckbox = page.getByLabel(
-  'I understand that this deletion cannot be reversed',
-);
+    this.deleteAcknowledgementCheckbox = page.getByLabel(
+      'I understand that this deletion cannot be reversed',
+    );
 
-this.deletePermanentlyButton = page.getByRole('button', {
-  name: 'Delete permanently',
-  exact: true,
-});
+    this.deletePermanentlyButton = page.getByRole('button', {
+      name: 'Delete permanently',
+      exact: true,
+    });
 
-this.archiveMenuItem = page.getByRole('menuitem', {
-  name: 'Archive',
-  exact: true,
-});
+    this.archiveMenuItem = page.getByRole('menuitem', {
+      name: 'Archive',
+      exact: true,
+    });
 
-this.unarchiveMenuItem = page.getByRole('menuitem', {
-  name: 'Unarchive',
-  exact: true,
-});
+    this.unarchiveMenuItem = page.getByRole('menuitem', {
+      name: 'Unarchive',
+      exact: true,
+    });
 
-this.archivedProjectsLink = page.getByRole('link', {
-  name: 'Archived projects',
-  exact: true,
-});
+    this.archivedProjectsLink = page.getByRole('link', {
+      name: 'Archived projects',
+      exact: true,
+    });
 
-this.archivedPageHeading = page.getByRole('heading', {
-  name: 'Archived projects',
-  exact: true,
-});
+    this.archivedPageHeading = page.getByRole('heading', {
+      name: 'Archived projects',
+      exact: true,
+    });
 
-this.projectSettingsMenuItem = page.getByRole('menuitem', {
-  name: 'Project settings',
-  exact: true,
-});
-
-}
+    this.projectSettingsMenuItem = page.getByRole('menuitem', {
+      name: 'Project settings',
+      exact: true,
+    });
+  }
   async navigateToProjects(): Promise<void> {
-  await this.navigate('/projects');
+    await this.navigate('/projects');
 
-  await expect(this.pageHeading).toBeVisible();
-  await this.expectPageURL(/\/projects/);
-}
+    await expect(this.pageHeading).toBeVisible();
+    await this.expectPageURL(/\/projects/);
+  }
 
   async clickAddProject(): Promise<void> {
     await this.addButton.click();
@@ -130,98 +129,88 @@ this.projectSettingsMenuItem = page.getByRole('menuitem', {
   }
 
   async openProjectActions(name: string): Promise<void> {
-  const projectRow = this.page
-    .getByRole('row')
-    .filter({
+    const projectRow = this.page.getByRole('row').filter({
       hasText: name,
     });
 
-  await projectRow.getByRole('button').click();
-}
+    await projectRow.getByRole('button').click();
+  }
 
   async deleteProject(name: string): Promise<void> {
-  await this.openProjectActions(name);
-  await this.deleteMenuItem.click();
+    await this.openProjectActions(name);
+    await this.deleteMenuItem.click();
 
-  await expect(this.deleteDialogHeading).toBeVisible();
-  await expect(this.deletePermanentlyButton).toBeDisabled();
+    await expect(this.deleteDialogHeading).toBeVisible();
+    await expect(this.deletePermanentlyButton).toBeDisabled();
 
-  await this.deleteAcknowledgementCheckbox.check();
+    await this.deleteAcknowledgementCheckbox.check();
 
-  await expect(this.deletePermanentlyButton).toBeEnabled();
-  await this.deletePermanentlyButton.click();
+    await expect(this.deletePermanentlyButton).toBeEnabled();
+    await this.deletePermanentlyButton.click();
 
-  await expect(
-    this.page.getByRole('link', {
-      name,
-      exact: true,
-    }),
-  ).not.toBeVisible();
-}
+    await expect(
+      this.page.getByRole('link', {
+        name,
+        exact: true,
+      }),
+    ).not.toBeVisible();
+  }
   async archiveProject(name: string): Promise<void> {
-  await this.openProjectActions(name);
+    await this.openProjectActions(name);
 
-  this.page.once('dialog', async dialog => {
-    expect(dialog.message()).toBe(
-      `Are you sure you want to archive the project '${name}'?`,
-    );
+    this.page.once('dialog', async (dialog) => {
+      expect(dialog.message()).toBe(`Are you sure you want to archive the project '${name}'?`);
 
-    await dialog.accept();
-  });
+      await dialog.accept();
+    });
 
-  await this.archiveMenuItem.click();
+    await this.archiveMenuItem.click();
 
-  await expect(
-    this.page.getByRole('link', {
-      name,
-      exact: true,
-    }),
-  ).not.toBeVisible();
-}
+    await expect(
+      this.page.getByRole('link', {
+        name,
+        exact: true,
+      }),
+    ).not.toBeVisible();
+  }
 
   async openArchivedProjects(): Promise<void> {
-  await this.archivedProjectsLink.click();
+    await this.archivedProjectsLink.click();
 
-  await expect(this.archivedPageHeading).toBeVisible();
-  await this.expectPageURL(/query_id=archived/);
-}
+    await expect(this.archivedPageHeading).toBeVisible();
+    await this.expectPageURL(/query_id=archived/);
+  }
 
   async expectArchivedProjectVisible(name: string): Promise<void> {
-  const archivedProjectRow = this.page
-    .getByRole('row')
-    .filter({
+    const archivedProjectRow = this.page.getByRole('row').filter({
       hasText: name,
     });
 
-  await expect(archivedProjectRow).toBeVisible();
-  await expect(archivedProjectRow).toContainText('(Archived)');
-}
+    await expect(archivedProjectRow).toBeVisible();
+    await expect(archivedProjectRow).toContainText('(Archived)');
+  }
 
   async unarchiveProject(name: string): Promise<void> {
-  const archivedProjectRow = this.page
-    .getByRole('row')
-    .filter({
+    const archivedProjectRow = this.page.getByRole('row').filter({
       hasText: name,
     });
 
-  await archivedProjectRow.getByRole('button').click();
-  await this.unarchiveMenuItem.click();
+    await archivedProjectRow.getByRole('button').click();
+    await this.unarchiveMenuItem.click();
 
-  await expect(this.pageHeading).toBeVisible();
-  await this.expectPageURL(/\/projects$/);
+    await expect(this.pageHeading).toBeVisible();
+    await this.expectPageURL(/\/projects$/);
 
-  const restoredProjectRow = this.page
-    .getByRole('row')
-    .filter({
+    const restoredProjectRow = this.page.getByRole('row').filter({
       hasText: name,
     });
 
-  await expect(restoredProjectRow).toBeVisible();
-  await expect(restoredProjectRow).not.toContainText('(Archived)');
-}
+    await expect(restoredProjectRow).toBeVisible();
+    await expect(restoredProjectRow).not.toContainText('(Archived)');
+  }
 
   async openProjectSettings(name: string): Promise<void> {
-  await this.openProjectActions(name);
-  await this.projectSettingsMenuItem.click();
-}
+    await this.openProjectActions(name);
+    await this.projectSettingsMenuItem.click();
+  }
 }

@@ -8,18 +8,14 @@ test.describe('OpenProject - Project Archive Lifecycle', () => {
     createProjectPage,
   }) => {
     const projectName = `Archive Project ${Date.now()}`;
-    const description =
-      'Project created to validate archive and unarchive behavior.';
+    const description = 'Project created to validate archive and unarchive behavior.';
 
     await page.goto('/');
     await homePage.expectLoaded();
 
     await projectsPage.navigateToProjects();
     await projectsPage.clickAddProject();
-    await createProjectPage.createProject(
-      projectName,
-      description,
-    );
+    await createProjectPage.createProject(projectName, description);
 
     await projectsPage.navigateToProjects();
     await projectsPage.searchProject(projectName);

@@ -9,48 +9,42 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
 
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-  ],
+  reporter: [['list'], ['html', { open: 'never' }]],
 
   use: {
-  baseURL: env.baseURL,
+    baseURL: env.baseURL,
 
-  viewport: {
+    viewport: {
+      width: 1920,
+      height: 1080,
+    },
 
-    width: 1920,
-    height: 1080,
+    launchOptions: {
+      args: ['--window-position=0,0'],
+    },
 
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
-
-  launchOptions: {
-    args: ['--window-position=0,0'],
-  },
-
-  trace: 'on-first-retry',
-  screenshot: 'only-on-failure',
-  video: 'retain-on-failure',
-},
-   projects: [
-  {
-  name: 'api',
-  testMatch: '**/api/**/*.spec.ts',
-},
-  {
-  name: 'setup',
-  testMatch: /.*\.setup\.ts/,
-},
-  {
-  name: 'chromium',
-  testIgnore: '**/api/**/*.spec.ts',
-  use: {
-    ...devices['Desktop Chrome'],
-    storageState: 'playwright/.auth/user.json',
-  },
-  dependencies: ['setup'],
-},
-
+  projects: [
+    {
+      name: 'api',
+      testMatch: '**/api/**/*.spec.ts',
+    },
+    {
+      name: 'setup',
+      testMatch: /.*\.setup\.ts/,
+    },
+    {
+      name: 'chromium',
+      testIgnore: '**/api/**/*.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'playwright/.auth/user.json',
+      },
+      dependencies: ['setup'],
+    },
 
     // {
     //   name: 'firefox',

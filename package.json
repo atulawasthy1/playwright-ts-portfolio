@@ -3,20 +3,31 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test",
-    "test:smoke": "playwright test tests/smoke",
-    "test:headed": "playwright test --headed",
-    "test:smoke:headed": "playwright test tests/smoke --headed",
-    "report": "playwright show-report"
-  },
+  "test": "playwright test",
+  "test:smoke": "playwright test tests/smoke",
+  "test:api": "playwright test tests/api --project=api --workers=1",
+  "test:e2e": "playwright test tests/e2e --project=chromium --workers=1",
+  "test:headed": "playwright test --headed",
+  "test:smoke:headed": "playwright test tests/smoke --headed",
+  "typecheck": "tsc --noEmit",
+  "lint": "eslint .",
+  "format": "prettier \"src/**/*.ts\" \"tests/**/*.ts\" \"playwright.config.ts\" \"eslint.config.mjs\" \".prettierrc.json\" --write",
+  "format:check": "prettier \"src/**/*.ts\" \"tests/**/*.ts\" \"playwright.config.ts\" \"eslint.config.mjs\" \".prettierrc.json\" --check",
+  "report": "playwright show-report"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.1.1",
     "dotenv": "^17.4.2",
-    "typescript": "^7.0.2"
+    "eslint": "^10.8.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "3.9.6",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.66.0"
   }
 }

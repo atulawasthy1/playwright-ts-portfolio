@@ -15,8 +15,6 @@ export class ExamplePage extends BasePage {
   }
 
   async verifyHeading(): Promise<void> {
-    await expect(
-      this.page.getByRole('heading', { name: 'Example Domain' })
-    ).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: 'Example Domain' })).toBeVisible();
   }
 }

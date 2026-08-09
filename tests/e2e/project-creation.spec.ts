@@ -8,8 +8,7 @@ test.describe('OpenProject - Project Management', () => {
     createProjectPage,
   }) => {
     const projectName = `Portfolio Project ${Date.now()}`;
-    const description =
-      'Project created through the Playwright TypeScript portfolio framework.';
+    const description = 'Project created through the Playwright TypeScript portfolio framework.';
 
     await page.goto('/');
     await homePage.expectLoaded();
@@ -17,10 +16,7 @@ test.describe('OpenProject - Project Management', () => {
     await projectsPage.navigateToProjects();
     await projectsPage.clickAddProject();
 
-    await createProjectPage.createProject(
-      projectName,
-      description,
-    );
+    await createProjectPage.createProject(projectName, description);
 
     await projectsPage.navigateToProjects();
     await projectsPage.searchProject(projectName);

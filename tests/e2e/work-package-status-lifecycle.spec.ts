@@ -26,25 +26,14 @@ test.describe('OpenProject - Work Package Status Lifecycle', () => {
     await workPackagesPage.navigateToWorkPackages();
     await workPackagesPage.createTask(taskSubject);
 
-    await workPackagesPage.expectTaskStatusInTable(
-      taskSubject,
-      'New',
-    );
+    await workPackagesPage.expectTaskStatusInTable(taskSubject, 'New');
 
-    await workPackagesPage.changeTaskStatus(
-      taskSubject,
-      'In progress',
-    );
+    await workPackagesPage.changeTaskStatus(taskSubject, 'In progress');
 
-    await workPackagesPage.expectTaskStatusInTable(
-      taskSubject,
-      'In progress',
-    );
+    await workPackagesPage.expectTaskStatusInTable(taskSubject, 'In progress');
 
     await workPackagesPage.openTaskDetails(taskSubject);
-    await workPackagesPage.expectTaskStatusInDetails(
-      'In progress',
-    );
+    await workPackagesPage.expectTaskStatusInDetails('In progress');
 
     await workPackagesPage.deleteTask(taskSubject);
 
