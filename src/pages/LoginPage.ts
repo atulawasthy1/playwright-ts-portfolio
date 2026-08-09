@@ -7,14 +7,12 @@ export class LoginPage extends BasePage {
   private readonly signInButton: Locator;
 
   constructor(page: Page) {
-  super(page);
+    super(page);
 
-  this.usernameInput = page.locator('#username');
-  this.passwordInput = page.locator('#password');
-  this.signInButton = page
-    .locator('#login-form')
-    .getByRole('button', { name: 'Sign in' });
-}
+    this.usernameInput = page.locator('#username');
+    this.passwordInput = page.locator('#password');
+    this.signInButton = page.locator('#login-form').getByRole('button', { name: 'Sign in' });
+  }
 
   async open(): Promise<void> {
     await this.navigate('/login');

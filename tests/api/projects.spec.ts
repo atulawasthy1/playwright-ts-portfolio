@@ -23,10 +23,7 @@ test.describe('OpenProject API - Projects', () => {
     let projectId: number | undefined;
 
     try {
-      const createResponse = await apiClient.createProject(
-        projectName,
-        projectIdentifier,
-      );
+      const createResponse = await apiClient.createProject(projectName, projectIdentifier);
 
       expect(createResponse.status()).toBe(201);
 
@@ -35,9 +32,7 @@ test.describe('OpenProject API - Projects', () => {
       projectId = createdProject.id;
 
       if (typeof projectId !== 'number') {
-        throw new Error(
-          'Created project response did not contain a valid project ID',
-        );
+        throw new Error('Created project response did not contain a valid project ID');
       }
 
       expect(createdProject._type).toBe('Project');
@@ -72,10 +67,7 @@ test.describe('OpenProject API - Projects', () => {
     let projectId: number | undefined;
 
     try {
-      const createResponse = await apiClient.createProject(
-        projectName,
-        projectIdentifier,
-      );
+      const createResponse = await apiClient.createProject(projectName, projectIdentifier);
 
       expect(createResponse.status()).toBe(201);
 
@@ -84,15 +76,10 @@ test.describe('OpenProject API - Projects', () => {
       projectId = createdProject.id;
 
       if (typeof projectId !== 'number') {
-        throw new Error(
-          'Created project response did not contain a valid project ID',
-        );
+        throw new Error('Created project response did not contain a valid project ID');
       }
 
-      const updateResponse = await apiClient.updateProject(
-        projectId,
-        updatedProjectName,
-      );
+      const updateResponse = await apiClient.updateProject(projectId, updatedProjectName);
 
       expect(updateResponse.status()).toBe(200);
 
@@ -120,16 +107,14 @@ test.describe('OpenProject API - Projects', () => {
     }
   });
   test('returns not found for a non-existent project', async ({ apiClient }) => {
-  const response = await apiClient.getProjectById(999999999);
+    const response = await apiClient.getProjectById(999999999);
 
-  expect(response.status()).toBe(404);
+    expect(response.status()).toBe(404);
 
-  const body = await response.json();
+    const body = await response.json();
 
-  expect(body._type).toBe('Error');
-  expect(body.errorIdentifier).toBe(
-    'urn:openproject-org:api:v3:errors:NotFound',
-  );
-  expect(body.message).toBeTruthy();
-});
+    expect(body._type).toBe('Error');
+    expect(body.errorIdentifier).toBe('urn:openproject-org:api:v3:errors:NotFound');
+    expect(body.message).toBeTruthy();
+  });
 });

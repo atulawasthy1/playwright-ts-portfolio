@@ -39,10 +39,11 @@ export class CreateProjectPage extends BasePage {
       exact: true,
     });
 
-    this.successMessage = page.locator('#primerized-flash-messages')
-    .getByText('Successful creation.', {
-    exact: true,
-  });
+    this.successMessage = page
+      .locator('#primerized-flash-messages')
+      .getByText('Successful creation.', {
+        exact: true,
+      });
   }
 
   async selectBlankProject(): Promise<void> {
@@ -53,11 +54,11 @@ export class CreateProjectPage extends BasePage {
   }
 
   async fillProjectName(name: string): Promise<void> {
-  await this.nameInput.fill(name);
-  await this.nameInput.press('Tab');
+    await this.nameInput.fill(name);
+    await this.nameInput.press('Tab');
 
-  await expect(this.identifierInput).not.toHaveValue('');
-}
+    await expect(this.identifierInput).not.toHaveValue('');
+  }
 
   async fillDescription(description: string): Promise<void> {
     await this.descriptionEditor.fill(description);
@@ -68,10 +69,7 @@ export class CreateProjectPage extends BasePage {
     await expect(this.successMessage).toBeVisible();
   }
 
-  async createProject(
-    name: string,
-    description: string,
-  ): Promise<void> {
+  async createProject(name: string, description: string): Promise<void> {
     await this.selectBlankProject();
     await this.fillProjectName(name);
     await this.fillDescription(description);
